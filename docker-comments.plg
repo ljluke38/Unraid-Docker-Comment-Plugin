@@ -1,0 +1,51 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE PLUGIN [
+  <!ENTITY name      "docker-comments">
+  <!ENTITY author    "ljluke38">
+  <!ENTITY version   "2026.10.20">
+  <!ENTITY pluginURL "https://githubusercontent.com">
+]>
+
+<PLUGIN name="&name;" author="&author;" version="&version;" pluginURL="&pluginURL;">
+
+  <!-- PRE-INSTALLATION: Set up storage infrastructure on the physical USB flash drive -->
+  <FILE Run="/bin/bash">
+    <INLINE>
+      mkdir -p /boot/config/plugins/&name;
+      if [ ! -f /boot/config/plugins/&name;/comments.json ]; then
+        echo '{}' > /boot/config/plugins/&name;/comments.json
+      fi
+      mkdir -p /usr/local/emhttp/plugins/&name;
+    </INLINE>
+  </FILE>
+
+  <!-- INSTALLATION: Fetch the PHP API script from your GitHub src directory -->
+  <FILE Name="/usr/local/emhttp/plugins/&name;/api.php">
+    <URL>https://githubusercontent.com</URL>
+  </FILE>
+
+  <!-- INSTALLATION: Fetch the JavaScript injector from your GitHub src directory -->
+  <FILE Name="/usr/local/emhttp/plugins/&name;/inject.js">
+    <URL>https://githubusercontent.com</URL>
+  </FILE>
+
+  <!-- INSTALLATION: Fetch the WebGUI hook page from your GitHub src directory -->
+  <FILE Name="/usr/local/emhttp/plugins/&name;/event_hook.page">
+    <URL>https://githubusercontent.com</URL>
+  </FILE>
+
+  <!-- POST-INSTALLATION: Confirmation message sent to the Unraid terminal interface -->
+  <FILE Run="/bin/bash">
+    <INLINE>
+      echo "Docker Comments extension successfully injected into your WebGUI!"
+    </INLINE>
+  </FILE>
+
+  <!-- UNINSTALLATION: Cleanly remove custom assets from system RAM memory -->
+  <FILE Remove="/boot/config/plugins/&name;">
+    <INLINE>
+      rm -rf /usr/local/emhttp/plugins/&name;
+      echo "Docker Comments extension cleanly removed."
+    </INLINE>
+  </FILE>
+</PLUGIN>

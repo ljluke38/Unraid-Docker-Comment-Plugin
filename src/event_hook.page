@@ -1,0 +1,3 @@
+Menu="Docker"
+---
+<script src="/plugins/docker-comments/inject.js"></script>
